@@ -1,6 +1,6 @@
 # hubot-telegram-better
 
-[![Build Status](https://travis-ci.org/loveonelong/hubot-telegram-butter.svg?branch=master)](https://travis-ci.org/loveonelong/hubot-telegram-butter)
+[![Build Status](https://travis-ci.org/loveonelong/hubot-telegram-butter.svg?branch=master)](https://travis-ci.org/loveonelong/hubot-telegram-better)
 
 A better [hubot](https://hubot.github.com/docs/) adapter for interfacting with the [Telegram Bot API](https://core.telegram.org/bots/api)
 

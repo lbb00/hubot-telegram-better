@@ -1,0 +1,48 @@
+{
+  "name": "hubot-telegram-better",
+  "version": "0.0.1",
+  "description": "A better hubot adapter for Telegram",
+  "main": "./src/telegram.js",
+  "scripts": {
+    "start": "hubot -a telegram-better",
+    "eslint": "eslint .eslintrc.js ./ --ignore-path .eslintignore --fix",
+    "test": "node_modules\\.bin\\mocha test/telegram.test.js",
+    "link": "npm link ../hubot-telegram-better"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/loveonelong/hubot-telegram-better.git"
+  },
+  "keywords": [
+    "hubot",
+    "adapter",
+    "telegram",
+    "telegram hubot",
+    "hubot telegram",
+    "better",
+    "hubot telegram better"
+  ],
+  "author": "one long <love@onelong.org>",
+  "contributors": [
+    "one long <love@onelong.org> (http://www.onelong.org)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/loveonelong/hubot-telegram-better/issues"
+  },
+  "homepage": "https://github.com/loveonelong/hubot-telegram-better",
+  "dependencies": {
+    "hubot": "^3.1.1",
+    "telegrambot": "^0.1.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^5.5.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-standard": "^4.0.0",
+    "mocha": "^5.2.0"
+  }
+}

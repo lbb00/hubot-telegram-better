@@ -4,7 +4,7 @@
   "description": "A better hubot adapter for Telegram",
   "main": "./src/telegram.js",
   "scripts": {
-    "start": "hubot -a telegram-better",
+    "start": "bin/hubot",
     "eslint": "eslint .eslintrc.js ./ --ignore-path .eslintignore --fix",
     "test": "node_modules\\.bin\\mocha test/telegram.test.js",
     "link": "npm link ../hubot-telegram-better"

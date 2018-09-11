@@ -1,7 +1,7 @@
 {
   "name": "hubot-telegram-better",
   "version": "0.0.1",
-  "description": "A better hubot adapter for Telegram",
+  "description": "A better hubot telegram adapter",
   "main": "./src/telegram.js",
   "scripts": {
     "start": "bin/hubot",
@@ -24,7 +24,7 @@
   ],
   "author": "one long <love@onelong.org>",
   "contributors": [
-    "one long <love@onelong.org> (http://www.onelong.org)"
+    "onelong <love@onelong.org> (http://www.onelong.org)"
   ],
   "license": "MIT",
   "bugs": {

@@ -1,5 +1,8 @@
-#node_module
+# node_module
 node_modules
+
+# npm
+package-lock.json
 
 # Logs
 logs

@@ -5,8 +5,8 @@
   "main": "./src/telegram.js",
   "scripts": {
     "start": "bin/hubot",
-    "eslint": "eslint .eslintrc.js ./ --ignore-path .eslintignore --fix",
-    "test": "node_modules\\.bin\\mocha test/telegram.test.js",
+    "eslint": "eslint --fix ./",
+    "test": "mocha",
     "link": "npm link ../hubot-telegram-better"
   },
   "repository": {

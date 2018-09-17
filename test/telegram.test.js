@@ -3,57 +3,6 @@ const expect = require('chai').expect
 
 let telegram = require('./../src/telegram').use(hubot)
 describe('Telegram', function () {
-  describe('#cleanMessageText()', function () {
-    it('private chat: should remove any leading / characters from commands', function () {
-      let input, text
-
-      input = '/ship it'
-      text = telegram.cleanMessageText(input, 1)
-      expect(/\/ship it/.test(text)).to.equal(false)
-
-      input = '/ship it'
-      text = telegram.cleanMessageText(input, 1)
-      expect(text.split(' ')[1].substr(0, 1)).to.not.equal('/')
-    })
-
-    // eg. ship it => BotName ship it
-    it('private chat: should auto prepend the bot name to message text', function () {
-      let input = 'ship it'
-      let text = telegram.cleanMessageText(input, 1)
-      expect(hubot.name + ' ' + input).to.equal(text)
-    })
-
-    // eg. BotName ship it => BotName ship it
-    it('private chat: should not prepend bot name if has already been provided', function () {
-      let input, text
-      input = 'ship it'
-
-      text = telegram.cleanMessageText(hubot.name + ' ' + input, 1)
-      expect(hubot.name + ' ' + input).to.equal(text)
-
-      text = telegram.cleanMessageText(hubot.name.toLowerCase() + ' ' + input, 1)
-      expect(hubot.name + ' ' + input).to.equal(text)
-
-      text = telegram.cleanMessageText('@' + hubot.name.toLowerCase() + ' ' + input, 1)
-      expect(hubot.name + ' ' + input).to.equal(text)
-    })
-
-    // eg. BotAliasName ship it => BotAliasName ship it
-    it('private chat: should not prepend bot name if an alias has already been provided', function () {
-      let input, text
-      input = 'ship it'
-
-      text = telegram.cleanMessageText(hubot.alias + ' ' + input, 1)
-      expect(hubot.name + ' ' + input).to.equal(text)
-
-      text = telegram.cleanMessageText(hubot.alias.toLowerCase() + ' ' + input, 1)
-      expect(hubot.name + ' ' + input).to.equal(text)
-
-      text = telegram.cleanMessageText('@' + hubot.alias.toLowerCase() + ' ' + input, 1)
-      expect(hubot.name + ' ' + input).to.equal(text)
-    })
-  })
-
   describe('#applyExtraOptions()', function () {
     it('should automatically add the markdown option if the text contains markdown characters', function () {
       let message = { text: 'normal' }

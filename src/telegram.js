@@ -23,8 +23,7 @@ class TelegrambotAdapter extends Adapter {
         this.robot.logger.info(`Telegram Bot Identified: ${this.bot_firstname}`)
 
         if (this.bot_username !== this.robot.name) {
-          this.robot.logger.warning(`It is advised to use the same bot name as your Telegram Bot: ${this.bot_username}`)
-          this.robot.logger.warning('Having a different bot name can result in an inconsistent experience when using @mentions')
+          this.robot.name = this.bot_username
         }
       }
     })
@@ -69,28 +68,18 @@ class TelegrambotAdapter extends Adapter {
     this.robot.logger.info('Telegram Adapter Started...')
   }
 
-  /**
-   * Clean up the message text to remove duplicate mentions of the
-   * bot name and to strip Telegram specific characters such as the usage
-   * of / when addressing a bot in privacy mode
-   *
-   * @param string text
-   * @param int    chat_id
-   *
-   * @return string
-   */
   cleanMessageText (text, chat_id) {
-    // If it is a private chat, automatically prepend the bot name if it does not exist already.
-    if (chat_id > 0) {
-      // Strip out the stuff we don't need.
-      text = text.replace(/^\//g, '').trim()
+    // hubot just check a reply in message head.
+    // eg. '@bot ok' -> reply message
+    // eg. 'ok @bot' -> simple message
+    let atSign = `@${this.robot.name}`
 
-      text = text.replace(new RegExp(`^@?${this.robot.name.toLowerCase()}`, 'gi'), '')
-      if (this.robot.alias) { text = text.replace(new RegExp(`^@?${this.robot.alias.toLowerCase()}`, 'gi'), '') }
-      text = this.robot.name + ' ' + text.trim()
-    } else {
-      text = text.trim()
+    if (chat_id > 0) {
+      text = `${this.robot.name} ${text.replace(atSign, '')}`
+    } else if (text.match(atSign)) {
+      text = `${this.robot.name} ${text.replace(atSign, '')}`
     }
+
     return text
   }
 
@@ -243,7 +232,7 @@ class TelegrambotAdapter extends Adapter {
     if (message.text) {
       text = this.cleanMessageText(message.text, message.chat.id)
 
-      this.robot.logger.debug(`Received message: ${message.from.username} said '${text}'`)
+      this.robot.logger.info(`Received message: ${message.from.username} said '${text}'`)
 
       user = this.createUser(message.from, message.chat)
       this.receive(new TextMessage(user, text, message.message_id))

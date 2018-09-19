@@ -5,8 +5,9 @@ set -e
 export PATH="node_modules/.bin:node_modules/hubot/node_modules/.bin:$PATH"
 
 # config
-export TELEGRAM_TOKEN=""
-export TELEGRAM_WEBHOOK=""
-export TELEGRAM_INTERVAL="500"
+export PORT=8091
+export TELEGRAM_TOKEN=
+export TELEGRAM_WEBHOOK=
+export TELEGRAM_INTERVAL=500
 
-exec node_modules/.bin/hubot -a telegram-better --name "telegram" "$@"
+exec node_modules/.bin/hubot -a telegram-better "$@"

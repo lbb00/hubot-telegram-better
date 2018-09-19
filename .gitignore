@@ -7,3 +7,6 @@ package-lock.json
 # Logs
 logs
 *.log
+
+# Groups data
+groups.data

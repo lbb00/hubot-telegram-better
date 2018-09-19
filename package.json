@@ -1,6 +1,6 @@
 {
   "name": "hubot-telegram-better",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A better hubot telegram adapter",
   "main": "./src/telegram.js",
   "scripts": {
@@ -33,6 +33,7 @@
   "homepage": "https://github.com/loveonelong/hubot-telegram-better",
   "dependencies": {
     "hubot": "^3.1.1",
+    "socks5-https-client": "^1.2.1",
     "telegrambot": "^0.1.1"
   },
   "devDependencies": {

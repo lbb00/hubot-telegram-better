@@ -1,6 +1,6 @@
 const { Adapter, TextMessage, EnterMessage, LeaveMessage, TopicMessage, CatchAllMessage } = require('hubot/es2015')
-
 const Telegrambot = require('telegrambot')
+const groupsManager = require('./groupsManager.js')
 
 class TelegrambotAdapter extends Adapter {
   constructor () {
@@ -11,7 +11,6 @@ class TelegrambotAdapter extends Adapter {
     this.offset = 0
     this.api = new Telegrambot(this.token)
     this.robot.logger.info(`Telegram Adapter Bot ${this.token} Loaded...`)
-
     // Get the bot information
     this.api.invoke('getMe', {}, (err, result) => {
       if (err) {
@@ -159,7 +158,7 @@ class TelegrambotAdapter extends Adapter {
     this.robot.logger.debug(`Message parts: ${chunks.length}`)
 
     // Chunk message delivery when required
-    var send = cb => {
+    const send = cb => {
       if (chunks.length !== 0) {
         const current = chunks.shift()
         opts.text = current
@@ -175,27 +174,19 @@ class TelegrambotAdapter extends Adapter {
     send(cb)
   }
 
-  /**
-   * Send a message to a specific room via the Telegram API
-   */
   send (envelope, ...strings) {
     const text = strings.join()
     const data = this.applyExtraOptions({ chat_id: envelope.room, text }, envelope.telegram)
     this.apiSend(data, (err, message) => {
       if (err) {
-        this.emit('error', err)
-      } else {
-        this.robot.logger.info(`Sending message to room: ${envelope.room}`)
+        this.robot.logger.error(err)
+        return
       }
+      this.robot.logger.info(`Sending message to room: ${envelope.room}`)
     })
   }
 
-  /**
-   * The only difference between send() and reply() is that we add the "reply_to_message_id" parameter when
-   * calling the API
-   */
   reply (envelope, ...strings) {
-    const self = this
     const text = strings.join()
     const data = this.applyExtraOptions({
       chat_id: envelope.room,
@@ -205,10 +196,10 @@ class TelegrambotAdapter extends Adapter {
 
     this.apiSend(data, (err, message) => {
       if (err) {
-        self.emit('error', err)
-      } else {
-        self.robot.logger.info(`Reply message to room/message: ${envelope.room}/${envelope.message.id}`)
+        this.robot.logger.error('error', err)
+        return
       }
+      this.robot.logger.info(`Reply message to room: ${envelope.room}`)
     })
   }
 
@@ -218,10 +209,13 @@ class TelegrambotAdapter extends Adapter {
    */
   handleUpdate (update) {
     let text, user
-    this.robot.logger.debug(update)
+    this.robot.logger.info(update)
 
     const message = update.message || update.edited_message || update.callback_query
     this.robot.logger.info(`Receiving message_id: ${message.message_id}`)
+
+    if (message.chat.type === 'group') groupsManager.update(message.chat.id, { name: message.chat.title })
+
     if (this.robot.brain.get(`handled${message.message_id}`) === true) {
       this.robot.logger.warning(`Message ${message.message_id} already handled.`)
       return
@@ -231,8 +225,7 @@ class TelegrambotAdapter extends Adapter {
     // Text event
     if (message.text) {
       text = this.cleanMessageText(message.text, message.chat.id)
-
-      this.robot.logger.info(`Received message: ${message.from.username} said '${text}'`)
+      this.robot.logger.info(`Received message: ${message.from.first_name} ${message.from.last_name} said '${text}'`)
 
       user = this.createUser(message.from, message.chat)
       this.receive(new TextMessage(user, text, message.message_id))
@@ -246,7 +239,7 @@ class TelegrambotAdapter extends Adapter {
 
       this.api.invoke('answerCallbackQuery', { callback_query_id: message.id }, function (err, result) {
         if (err) {
-          this.emit('error', err)
+          this.robot.logger.error(err)
         }
       })
 
@@ -274,18 +267,54 @@ class TelegrambotAdapter extends Adapter {
       this.receive(new CatchAllMessage(message))
     }
   }
+
   getUpdate () {
     setTimeout(() =>
       this.api.invoke('getUpdates', { offset: this.getLastOffset(), limit: 10 }, (err, result) => {
         if (err) {
-          this.emit('error', err)
+          this.robot.logger.error('error', err)
         } else {
           if (result.length) { this.offset = result[result.length - 1].update_id }
           Array.from(result).map(msg => this.handleUpdate(msg))
         }
         this.getUpdate()
+      }), this.interval)
+  }
+
+  push (message, { rule, type = 'all', reg = true } = {}) {
+    return new Promise((resolve, reject) => {
+      let contacts = []
+
+      switch (type) {
+        default:
+          contacts = groupsManager.groups
+      }
+
+      if (rule) {
+        let matcher = typeof rule === 'function' ? rule : roomName => {
+          return reg ? roomName.match(rule) : roomName === rule
+        }
+        let _temp = []
+        contacts.map(contact => {
+          if (matcher(contact.name)) {
+            _temp.push(contact)
+          }
+        })
+        contacts = _temp
+      }
+      contacts.map(group => {
+        this.robot.logger.info(`Push message to ${group.id} ${group.name}`)
+        this.apiSend({
+          chat_id: group.id,
+          text: message
+        }, (err, msg) => {
+          if (err) {
+            console.log(err)
+          }
+        })
       })
-    , this.interval)
+      resolve()
+    })
   }
 }
 

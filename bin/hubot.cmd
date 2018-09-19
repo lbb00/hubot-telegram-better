@@ -8,4 +8,4 @@ SET TELEGRAM_TOKEN=
 SET TELEGRAM_WEBHOOK=
 SET TELEGRAM_INTERVAL=500
 
-node_modules/.bin/hubot -a telegram-better --name "mybot" %*
+node_modules/.bin/hubot -a telegram-better %*

@@ -1,4 +1,12 @@
 module.exports = robot => {
+  robot.respond(/bot/i, res => {
+    res.send('Is me')
+  })
+
+  robot.hear(/bot/i, res => {
+    res.send('I am here')
+  })
+
   /**
    * Push message
    */

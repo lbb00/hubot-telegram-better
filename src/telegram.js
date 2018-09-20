@@ -68,9 +68,11 @@ class TelegrambotAdapter extends Adapter {
   }
 
   cleanMessageText (text, chat_id) {
-    // private chat
-    if (chat_id > 0) {
-      text = `@${this.robot.name} ${text}`
+    // Private chat as mention
+    // Fix hubot just check mentioned in message head.
+    let mentionSign = `@${this.robot.name}`
+    if (chat_id > 0 || text.match(mentionSign)) {
+      text = `${mentionSign} ${text.replace(mentionSign, '')}`
     }
     return text
   }

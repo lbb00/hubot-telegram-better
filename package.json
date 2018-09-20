@@ -1,6 +1,6 @@
 {
   "name": "hubot-telegram-better",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A better hubot telegram adapter",
   "main": "./src/telegram.js",
   "scripts": {

@@ -68,6 +68,10 @@ class TelegrambotAdapter extends Adapter {
   }
 
   cleanMessageText (text, chat_id) {
+    // private chat
+    if (chat_id > 0) {
+      text = `@${this.robot.name} ${text}`
+    }
     return text
   }
 

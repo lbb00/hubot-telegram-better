@@ -24,6 +24,7 @@ class TelegrambotAdapter extends Adapter {
         if (this.bot_username !== this.robot.name) {
           this.robot.name = this.bot_username
         }
+        this.emit('connected')
       }
     })
   }
@@ -63,22 +64,10 @@ class TelegrambotAdapter extends Adapter {
       this.getUpdate()
     }
 
-    this.emit('connected')
     this.robot.logger.info('Telegram Adapter Started...')
   }
 
   cleanMessageText (text, chat_id) {
-    // hubot just check a reply in message head.
-    // eg. '@bot ok' -> reply message
-    // eg. 'ok @bot' -> simple message
-    let atSign = `@${this.robot.name}`
-
-    if (chat_id > 0) {
-      text = `${this.robot.name} ${text.replace(atSign, '')}`
-    } else if (text.match(atSign)) {
-      text = `${this.robot.name} ${text.replace(atSign, '')}`
-    }
-
     return text
   }
 
@@ -209,7 +198,7 @@ class TelegrambotAdapter extends Adapter {
    */
   handleUpdate (update) {
     let text, user
-    this.robot.logger.info(update)
+    this.robot.logger.debug(update)
 
     const message = update.message || update.edited_message || update.callback_query
     this.robot.logger.info(`Receiving message_id: ${message.message_id}`)

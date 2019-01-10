@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/loveonelong/hubot-telegram-better",
   "dependencies": {
-    "hubot": "^3.1.1",
+    "hubot": "^3.2.0",
     "socks5-https-client": "^1.2.1",
     "telegrambot": "^0.1.1"
   },

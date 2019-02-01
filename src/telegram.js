@@ -125,7 +125,7 @@ class TelegrambotAdapter extends Adapter {
   createUser (user, chat) {
     const opts = user
     opts.name = opts.username
-    opts.room = chat.id
+    opts.room = String(chat.id)
     opts.telegram_chat = chat
 
     const result = this.robot.brain.userForId(user.id, opts)

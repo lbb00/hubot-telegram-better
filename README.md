@@ -6,6 +6,8 @@
 
 A better [hubot](https://hubot.github.com/docs/) adapter for interfacting with the [Telegram Bot API](https://core.telegram.org/bots/api)
 
+> I don't have enough energy to maintain this project. If you have some solutions, welcome pr.
+
 ## Installation & Usage
 
 First of reading the docs on how to create a new [Telegram Bot](https://core.telegram.org/bots#botfather). Once you have a bot created, follow these steps:

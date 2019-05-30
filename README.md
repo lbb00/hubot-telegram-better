@@ -28,6 +28,10 @@ You can specify a [webhook](https://core.telegram.org/bots/api#setwebhook) URL. 
 
 You can specify the interval (in milliseconds) in which the adapter will poll Telegram for updates. This option only applies if you are not using a [webhook](https://core.telegram.org/bots/api#setwebhook).
 
+**TELEGRAM_AUTO_MARKDOWN** (optional)
+
+You may `disable` auto Mardown feature if desired. It is `enabled` by default, but detection is very simple and may break with some external scripts (like hubot-help). 
+
 ## Telegram Specific Functionality (ie. Stickers, Images)
 
 If you want to create a script that relies on specific Telegram functionality that is not available to Hubot normally, you can do so by emitting the `telegram:invoke` event in your script:

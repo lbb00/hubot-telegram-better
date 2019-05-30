@@ -8,6 +8,7 @@ class TelegrambotAdapter extends Adapter {
     this.token = process.env['TELEGRAM_TOKEN'] || ''
     this.webhook = process.env['TELEGRAM_WEBHOOK'] || ''
     this.interval = +process.env['TELEGRAM_INTERVAL'] || 500
+    this.autoMarkdown = process.env['TELEGRAM_AUTO_MARKDOWN'] || 'enabled'
     this.offset = 0
     this.api = new Telegrambot(this.token)
     this.robot.logger.info(`Telegram Adapter Bot ${this.token} Loaded...`)
@@ -88,9 +89,9 @@ class TelegrambotAdapter extends Adapter {
    */
   applyExtraOptions (message, extra) {
     const { text } = message
-    const autoMarkdown = /\*.+\*/.test(text) || /_.+_/.test(text) || /\[.+\]\(.+\)/.test(text) || /`.+`/.test(text)
+    const detectMarkdown = /\*.+\*/.test(text) || /_.+_/.test(text) || /\[.+\]\(.+\)/.test(text) || /`.+`/.test(text)
 
-    if (autoMarkdown) {
+    if (detectMarkdown && this.autoMarkdown === 'enabled') {
       message.parse_mode = 'Markdown'
     }
 

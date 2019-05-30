@@ -1,6 +1,8 @@
 # hubot-telegram-better
 
-[![Build Status](https://travis-ci.org/loveonelong/hubot-telegram-better.svg?branch=master)](https://travis-ci.org/loveonelong/hubot-telegram-better) [![Greenkeeper badge](https://badges.greenkeeper.io/loveonelong/hubot-telegram-better.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/loveonelong/hubot-telegram-better.svg?branch=master)](https://travis-ci.org/loveonelong/hubot-telegram-better)
+[![Greenkeeper badge](https://badges.greenkeeper.io/loveonelong/hubot-telegram-better.svg)](https://greenkeeper.io/)
+[![Npm](https://img.shields.io/npm/v/hubot-telegram-better.svg)](https://www.npmjs.com/package/hubot-telegram-better)
 
 A better [hubot](https://hubot.github.com/docs/) adapter for interfacting with the [Telegram Bot API](https://core.telegram.org/bots/api)
 
@@ -30,7 +32,7 @@ You can specify the interval (in milliseconds) in which the adapter will poll Te
 
 **TELEGRAM_AUTO_MARKDOWN** (optional)
 
-You may `disable` auto Mardown feature if desired. It is `enabled` by default, but detection is very simple and may break with some external scripts (like hubot-help). 
+You may `disable` auto Mardown feature if desired. It is `enabled` by default, but detection is very simple and may break with some external scripts (like hubot-help).
 
 ## Telegram Specific Functionality (ie. Stickers, Images)
 
